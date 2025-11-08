@@ -36,7 +36,7 @@ import curl_cffi
 import curl_cffi.requests.impersonate
 from discord_protos import __version__ as protos_version  # Avoid breaking selfcord
 
-import discord
+import ditcord
 
 
 def show_version() -> None:
@@ -46,7 +46,7 @@ def show_version() -> None:
     version_info = discord.version_info
     entries.append('- discord.py-self v{0.major}.{0.minor}.{0.micro}-{0.releaselevel}'.format(version_info))
     if version_info.releaselevel != 'final':
-        version = importlib.metadata.version('discord.py-self')
+        version = importlib.metadata.version('ditcord.py-self')
         if version:
             entries.append(f'    - discord.py-self metadata: v{version}')
 
@@ -68,7 +68,7 @@ def core(parser: argparse.ArgumentParser, args: argparse.Namespace) -> None:
 _bot_template = """#!/usr/bin/env python3
 
 from discord.ext import commands
-import discord
+import ditcord
 import config
 
 class Bot(commands.Bot):
@@ -124,7 +124,7 @@ config.py
 """
 
 _cog_template = '''from discord.ext import commands
-import discord
+import ditcord
 
 class {name}(commands.Cog{attrs}):
     """The description for {name} goes here."""

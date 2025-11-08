@@ -40,7 +40,7 @@ from typing import (
 )
 
 import aiohttp
-import discord
+import ditcord
 import inspect
 
 from collections.abc import Sequence

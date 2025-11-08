@@ -33,7 +33,7 @@ from discord.utils import MISSING, maybe_coroutine
 from .errors import NoPrivateMessage
 from .converter import GuildConverter
 
-from discord import (
+from ditcord import (
     Member,
     User,
     TextChannel,

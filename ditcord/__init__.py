@@ -8,7 +8,7 @@ A basic wrapper for the Discord user API.
 :license: MIT, see LICENSE for more details.
 """
 
-__title__ = 'discord.py-self'
+__title__ = 'ditcord.py-self'
 __author__ = 'Dolfies'
 __license__ = 'MIT'
 __copyright__ = 'Copyright 2015-present Rapptz and 2021-present Dolfies'

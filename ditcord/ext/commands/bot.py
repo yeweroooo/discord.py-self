@@ -49,7 +49,7 @@ from typing import (
     overload,
 )
 
-import discord
+import ditcord
 from discord.utils import MISSING, _is_submodule
 
 from .core import GroupMixin

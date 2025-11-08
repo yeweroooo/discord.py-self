@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import asyncio
 import datetime
+import gc
 import io
 import logging
 import re
@@ -697,6 +698,9 @@ class HTTPClient:
         _log.info('Found TLS fingerprint target "%s" (Android mobile).', impersonate)
         self.__session = requests.AsyncSession(impersonate=impersonate, default_headers=False)
         self._started = True
+
+        # Clean up memory after initialization (memory optimization)
+        gc.collect()
 
     async def ws_connect(self, url: str, **kwargs) -> requests.AsyncWebSocket:
         await self.startup()

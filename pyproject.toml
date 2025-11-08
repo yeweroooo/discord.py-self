@@ -3,11 +3,11 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "discord.py-self"
-description = "A Python wrapper for the Discord user API"
+name = "ditcord.py-self"
+description = "A Python wrapper for the Discord user API (stealth fork with Android mobile TLS fingerprinting)"
 readme = { file = "README.rst", content-type = "text/x-rst" }
 license = { file = "LICENSE" }
-requires-python = ">=3.9"
+requires-python = ">=3.12"
 authors = [{ name = "Dolfies", email = "me@dolfi.es" }]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -15,11 +15,9 @@ classifiers = [
     "Intended Audience :: Developers",
     "Natural Language :: English",
     "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Internet",
     "Topic :: Software Development :: Libraries",
     "Topic :: Software Development :: Libraries :: Python Modules",
@@ -79,11 +77,11 @@ dev = [
 
 [tool.setuptools]
 packages = [
-    "discord",
-    "discord.types",
-    "discord.webhook",
-    "discord.ext.commands",
-    "discord.ext.tasks",
+    "ditcord",
+    "ditcord.types",
+    "ditcord.webhook",
+    "ditcord.ext.commands",
+    "ditcord.ext.tasks",
 ]
 include-package-data = true
 
@@ -94,8 +92,8 @@ fast = true
 
 [tool.coverage.run]
 omit = [
-    "discord/__main__.py",
-    "discord/types/*",
+    "ditcord/__main__.py",
+    "ditcord/types/*",
     "*/_types.py",
 ]
 
@@ -113,11 +111,11 @@ line_length = 125
 
 [tool.pyright]
 include = [
-    "discord",
-    "discord/types",
-    "discord/ext",
-    "discord/ext/commands",
-    "discord/ext/tasks",
+    "ditcord",
+    "ditcord/types",
+    "ditcord/ext",
+    "ditcord/ext/commands",
+    "ditcord/ext/tasks",
 ]
 exclude = [
     "**/__pycache__",
@@ -128,7 +126,7 @@ exclude = [
 reportUnnecessaryTypeIgnoreComment = "warning"
 reportUnusedImport = "error"
 reportShadowedImports = false
-pythonVersion = "3.9"
+pythonVersion = "3.12"
 typeCheckingMode = "basic"
 
 [tool.pytest.ini_options]

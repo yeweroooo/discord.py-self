@@ -46,7 +46,7 @@ from typing import (
 )
 import re
 
-import discord
+import ditcord
 
 from ._types import _BaseCommand, CogT
 from .cog import Cog
