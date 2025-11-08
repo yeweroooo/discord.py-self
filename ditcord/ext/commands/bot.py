@@ -65,7 +65,7 @@ if TYPE_CHECKING:
     import importlib.machinery
 
     from discord.message import Message
-    from discord.abc import User
+    from ditcord.abc import User
     from ._types import (
         _Bot,
         BotT,

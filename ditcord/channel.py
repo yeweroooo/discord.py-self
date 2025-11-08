@@ -45,7 +45,7 @@ from typing import (
 import datetime
 from operator import attrgetter
 
-import discord.abc
+import ditcord.abc
 from .scheduled_event import ScheduledEvent
 from .permissions import PermissionOverwrite, Permissions
 from .enums import (
@@ -131,7 +131,7 @@ class ThreadWithMessage(NamedTuple):
     message: Message
 
 
-class TextChannel(discord.abc.Messageable, discord.abc.GuildChannel, Hashable):
+class TextChannel(ditcord.abc.Messageable, ditcord.abc.GuildChannel, Hashable):
     """Represents a Discord guild text channel.
 
     .. container:: operations
@@ -259,7 +259,7 @@ class TextChannel(discord.abc.Messageable, discord.abc.GuildChannel, Hashable):
     def _scheduled_event_entity_type(self) -> Optional[EntityType]:
         return None
 
-    @utils.copy_doc(discord.abc.GuildChannel.permissions_for)
+    @utils.copy_doc(ditcord.abc.GuildChannel.permissions_for)
     def permissions_for(self, obj: Union[Member, Role], /) -> Permissions:
         base = super().permissions_for(obj)
         self._apply_implicit_permissions(base)
@@ -489,7 +489,7 @@ class TextChannel(discord.abc.Messageable, discord.abc.GuildChannel, Hashable):
             # the payload will always be the proper channel payload
             return self.__class__(state=self._state, guild=self.guild, data=payload)  # type: ignore
 
-    @utils.copy_doc(discord.abc.GuildChannel.clone)
+    @utils.copy_doc(ditcord.abc.GuildChannel.clone)
     async def clone(
         self,
         *,
@@ -617,7 +617,7 @@ class TextChannel(discord.abc.Messageable, discord.abc.GuildChannel, Hashable):
         List[:class:`.Message`]
             The list of messages that were deleted.
         """
-        return await discord.abc._purge_helper(
+        return await ditcord.abc._purge_helper(
             self,
             limit=limit,
             check=check,
@@ -976,7 +976,7 @@ class TextChannel(discord.abc.Messageable, discord.abc.GuildChannel, Hashable):
             before_timestamp = update_before(threads[-1])
 
 
-class VocalGuildChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc.GuildChannel, Hashable):
+class VocalGuildChannel(ditcord.abc.Messageable, ditcord.abc.Connectable, ditcord.abc.GuildChannel, Hashable):
     __slots__ = (
         'name',
         'id',
@@ -1078,7 +1078,7 @@ class VocalGuildChannel(discord.abc.Messageable, discord.abc.Connectable, discor
         """
         return [event for event in self.guild.scheduled_events if event.channel_id == self.id]
 
-    @utils.copy_doc(discord.abc.GuildChannel.permissions_for)
+    @utils.copy_doc(ditcord.abc.GuildChannel.permissions_for)
     def permissions_for(self, obj: Union[Member, Role], /) -> Permissions:
         base = super().permissions_for(obj)
         self._apply_implicit_permissions(base)
@@ -1309,7 +1309,7 @@ class VocalGuildChannel(discord.abc.Messageable, discord.abc.Connectable, discor
         List[:class:`.Message`]
             The list of messages that were deleted.
         """
-        return await discord.abc._purge_helper(
+        return await ditcord.abc._purge_helper(
             self,
             limit=limit,
             check=check,
@@ -1385,7 +1385,7 @@ class VocalGuildChannel(discord.abc.Messageable, discord.abc.Connectable, discor
         data = await self._state.http.create_webhook(self.id, name=str(name), avatar=avatar, reason=reason)
         return Webhook.from_state(data, state=self._state)
 
-    @utils.copy_doc(discord.abc.GuildChannel.clone)
+    @utils.copy_doc(ditcord.abc.GuildChannel.clone)
     async def clone(self, *, name: Optional[str] = None, reason: Optional[str] = None) -> Self:
         base = {
             'bitrate': self.bitrate,
@@ -1501,7 +1501,7 @@ class VoiceChannel(VocalGuildChannel):
         """:class:`ChannelType`: The channel's Discord type."""
         return ChannelType.voice
 
-    @utils.copy_doc(discord.abc.GuildChannel.clone)
+    @utils.copy_doc(ditcord.abc.GuildChannel.clone)
     async def clone(
         self,
         *,
@@ -1758,7 +1758,7 @@ class StageChannel(VocalGuildChannel):
         """:class:`ChannelType`: The channel's Discord type."""
         return ChannelType.stage_voice
 
-    @utils.copy_doc(discord.abc.GuildChannel.clone)
+    @utils.copy_doc(ditcord.abc.GuildChannel.clone)
     async def clone(
         self,
         *,
@@ -1802,7 +1802,7 @@ class StageChannel(VocalGuildChannel):
         send_start_notification: :class:`bool`
             Whether to send a start notification. This sends a push notification to @everyone if ``True``. Defaults to ``False``.
             You must have :attr:`~Permissions.mention_everyone` to do this.
-        scheduled_event: :class:`~discord.abc.Snowflake`
+        scheduled_event: :class:`~ditcord.abc.Snowflake`
             The guild scheduled event associated with the stage instance.
 
             .. versionadded:: 2.1
@@ -1961,7 +1961,7 @@ class StageChannel(VocalGuildChannel):
             return self.__class__(state=self._state, guild=self.guild, data=payload)  # type: ignore
 
 
-class CategoryChannel(discord.abc.GuildChannel, Hashable):
+class CategoryChannel(ditcord.abc.GuildChannel, Hashable):
     """Represents a Discord channel category.
 
     These are useful to group channels to logical compartments.
@@ -2038,7 +2038,7 @@ class CategoryChannel(discord.abc.GuildChannel, Hashable):
         """:class:`bool`: Checks if the category is NSFW."""
         return self.nsfw
 
-    @utils.copy_doc(discord.abc.GuildChannel.clone)
+    @utils.copy_doc(ditcord.abc.GuildChannel.clone)
     async def clone(
         self,
         *,
@@ -2122,7 +2122,7 @@ class CategoryChannel(discord.abc.GuildChannel, Hashable):
             # the payload will always be the proper channel payload
             return self.__class__(state=self._state, guild=self.guild, data=payload)  # type: ignore
 
-    @utils.copy_doc(discord.abc.GuildChannel.move)
+    @utils.copy_doc(ditcord.abc.GuildChannel.move)
     async def move(self, **kwargs: Any) -> None:
         kwargs.pop('category', None)
         await super().move(**kwargs)
@@ -2433,7 +2433,7 @@ class ForumTag(Hashable):
         await self._state.http.delete_forum_tag(self._channel_id, self.id)
 
 
-class ForumChannel(discord.abc.GuildChannel, Hashable):
+class ForumChannel(ditcord.abc.GuildChannel, Hashable):
     """Represents a Discord guild forum channel.
 
     .. container:: operations
@@ -2595,7 +2595,7 @@ class ForumChannel(discord.abc.GuildChannel, Hashable):
         """
         return [m for m in self.guild.members if self.permissions_for(m).read_messages]
 
-    @utils.copy_doc(discord.abc.GuildChannel.permissions_for)
+    @utils.copy_doc(ditcord.abc.GuildChannel.permissions_for)
     def permissions_for(self, obj: Union[Member, Role], /) -> Permissions:
         base = super().permissions_for(obj)
         self._apply_implicit_permissions(base)
@@ -2669,7 +2669,7 @@ class ForumChannel(discord.abc.GuildChannel, Hashable):
         """
         return self._type == ChannelType.media.value
 
-    @utils.copy_doc(discord.abc.GuildChannel.clone)
+    @utils.copy_doc(ditcord.abc.GuildChannel.clone)
     async def clone(
         self,
         *,
@@ -3161,7 +3161,7 @@ class ForumChannel(discord.abc.GuildChannel, Hashable):
             before_timestamp = update_before(threads[-1])
 
 
-class DirectoryChannel(discord.abc.GuildChannel, Hashable):
+class DirectoryChannel(ditcord.abc.GuildChannel, Hashable):
     """Represents a directory channel.
 
     These channels hold entries for guilds attached to a directory (such as a Student Hub).
@@ -3258,7 +3258,7 @@ class DirectoryChannel(discord.abc.GuildChannel, Hashable):
     def _scheduled_event_entity_type(self) -> Optional[EntityType]:
         return None
 
-    @utils.copy_doc(discord.abc.GuildChannel.permissions_for)
+    @utils.copy_doc(ditcord.abc.GuildChannel.permissions_for)
     def permissions_for(self, obj: Union[Member, Role], /) -> Permissions:
         base = super().permissions_for(obj)
         self._apply_implicit_permissions(base)
@@ -3366,7 +3366,7 @@ class DirectoryChannel(discord.abc.GuildChannel, Hashable):
             # the payload will always be the proper channel payload
             return self.__class__(state=self._state, guild=self.guild, data=payload)  # type: ignore
 
-    @utils.copy_doc(discord.abc.GuildChannel.clone)
+    @utils.copy_doc(ditcord.abc.GuildChannel.clone)
     async def clone(self, *, name: Optional[str] = None, reason: Optional[str] = None) -> DirectoryChannel:
         return await self._clone_impl({'topic': self.topic}, name=name, reason=reason)
 
@@ -3563,7 +3563,7 @@ class DirectoryChannel(discord.abc.GuildChannel, Hashable):
         return DirectoryEntry(state=state, data=data, channel=self)
 
 
-class DMChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc.PrivateChannel, Hashable):
+class DMChannel(ditcord.abc.Messageable, ditcord.abc.Connectable, ditcord.abc.PrivateChannel, Hashable):
     """Represents a Discord direct message channel.
 
     .. container:: operations
@@ -3853,7 +3853,7 @@ class DMChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc.Pr
 
         Parameters
         -----------
-        obj: :class:`~discord.abc.Snowflake`
+        obj: :class:`~ditcord.abc.Snowflake`
             The user to check permissions for. This parameter is ignored
             but kept for compatibility with other ``permissions_for`` methods.
 
@@ -3879,7 +3879,7 @@ class DMChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc.Pr
 
         Parameters
         -----------
-        \*recipients: :class:`~discord.abc.Snowflake`
+        \*recipients: :class:`~ditcord.abc.Snowflake`
             An argument list of users to add to this group.
 
         Raises
@@ -3953,7 +3953,7 @@ class DMChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc.Pr
         *,
         timeout: float = 60.0,
         reconnect: bool = True,
-        cls: Callable[[Client, discord.abc.VocalChannel], T] = VoiceClient,
+        cls: Callable[[Client, ditcord.abc.VocalChannel], T] = VoiceClient,
         ring: bool = True,
     ) -> T:
         """|coro|
@@ -4032,7 +4032,7 @@ class DMChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc.Pr
         await self._state.http.decline_message_request(self.id)
 
 
-class GroupChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc.PrivateChannel, Hashable):
+class GroupChannel(ditcord.abc.Messageable, ditcord.abc.Connectable, ditcord.abc.PrivateChannel, Hashable):
     """Represents a Discord group channel.
 
     .. container:: operations
@@ -4363,7 +4363,7 @@ class GroupChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc
 
         Parameters
         -----------
-        obj: :class:`~discord.abc.Snowflake`
+        obj: :class:`~ditcord.abc.Snowflake`
             The user to check permissions for.
 
         Returns
@@ -4397,11 +4397,11 @@ class GroupChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc
 
         Parameters
         -----------
-        \*recipients: :class:`~discord.abc.Snowflake`
+        \*recipients: :class:`~ditcord.abc.Snowflake`
             An argument list of users to add to this group.
             If the user is of type :class:`Object`, then the ``nick`` attribute
             is used as the nickname for the added recipient.
-        nicks: Optional[Mapping[:class:`~discord.abc.Snowflake`, :class:`str`]]
+        nicks: Optional[Mapping[:class:`~ditcord.abc.Snowflake`, :class:`str`]]
             A mapping of user IDs to nicknames to use for the added recipients.
 
             .. versionadded:: 2.0
@@ -4425,7 +4425,7 @@ class GroupChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc
 
         Parameters
         -----------
-        \*recipients: :class:`~discord.abc.Snowflake`
+        \*recipients: :class:`~ditcord.abc.Snowflake`
             An argument list of users to remove from this group.
 
         Raises
@@ -4461,7 +4461,7 @@ class GroupChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc
         icon: Optional[:class:`bytes`]
             A :term:`py:bytes-like object` representing the new icon.
             Could be ``None`` to remove the icon.
-        owner: :class:`~discord.abc.Snowflake`
+        owner: :class:`~ditcord.abc.Snowflake`
             The new owner of the group.
 
             .. versionadded:: 2.0
@@ -4583,7 +4583,7 @@ class GroupChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc
         *,
         timeout: float = 60.0,
         reconnect: bool = True,
-        cls: Callable[[Client, discord.abc.VocalChannel], T] = VoiceClient,
+        cls: Callable[[Client, ditcord.abc.VocalChannel], T] = VoiceClient,
         ring: bool = True,
     ) -> T:
         ret = await super().connect(timeout=timeout, reconnect=reconnect, cls=cls)
@@ -4593,7 +4593,7 @@ class GroupChannel(discord.abc.Messageable, discord.abc.Connectable, discord.abc
         return ret
 
 
-class PartialMessageable(discord.abc.Messageable, Hashable):
+class PartialMessageable(ditcord.abc.Messageable, Hashable):
     """Represents a partial messageable to aid with working messageable channels when
     only a channel ID is present.
 

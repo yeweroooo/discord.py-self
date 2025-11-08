@@ -4809,7 +4809,7 @@ class Guild(Hashable):
         -----------
         enabled: :class:`bool`
             Whether to enable the widget for the guild.
-        channel: Optional[:class:`~discord.abc.Snowflake`]
+        channel: Optional[:class:`~ditcord.abc.Snowflake`]
             The new widget channel. ``None`` removes the widget channel.
         reason: Optional[:class:`str`]
             The reason for editing this widget. Shows up on the audit log.

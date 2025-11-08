@@ -1736,7 +1736,7 @@ class PartialMessage(Hashable):
 
         Parameters
         ----------
-        destination: :class:`~discord.abc.Messageable`
+        destination: :class:`~ditcord.abc.Messageable`
             The channel to forward this message to.
         fail_if_not_exists: :class:`bool`
             Whether replying using the message reference should raise :class:`HTTPException`
@@ -2879,7 +2879,7 @@ class Message(PartialMessage, Hashable):
 
             If ``limit`` is passed alongside this parameter, this parameter will serve as a "preferred commands" list.
             This means that the endpoint will return the found commands + up to ``limit`` more, if available.
-        application: Optional[:class:`~discord.abc.Snowflake`]
+        application: Optional[:class:`~ditcord.abc.Snowflake`]
             Whether to return this application's commands. Always set to DM recipient in a private channel context.
         with_applications: :class:`bool`
             Whether to include applications in the response.

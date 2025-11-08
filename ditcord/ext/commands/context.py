@@ -39,8 +39,8 @@ from typing import (
     overload,
 )
 
-import discord.abc
-import discord.utils
+import ditcord.abc
+import ditcord.utils
 from discord.message import Message
 from discord.utils import MISSING
 
@@ -49,7 +49,7 @@ from ._types import BotT
 if TYPE_CHECKING:
     from typing_extensions import ParamSpec, TypeGuard
 
-    from discord.abc import MessageableChannel
+    from ditcord.abc import MessageableChannel
     from discord.commands import MessageCommand
     from discord.file import _FileBase
     from discord.guild import Guild
@@ -87,14 +87,14 @@ def is_cog(obj: Any) -> TypeGuard[Cog]:
     return hasattr(obj, '__cog_commands__')
 
 
-class Context(discord.abc.Messageable, Generic[BotT]):
+class Context(ditcord.abc.Messageable, Generic[BotT]):
     r"""Represents the context in which a command is being invoked under.
 
     This class contains a lot of meta data to help you understand more about
     the invocation context. This class is not created manually and is instead
     passed around to commands as the first parameter.
 
-    This class implements the :class:`~discord.abc.Messageable` ABC.
+    This class implements the :class:`~ditcord.abc.Messageable` ABC.
 
     Attributes
     -----------
@@ -286,7 +286,7 @@ class Context(discord.abc.Messageable, Generic[BotT]):
         """:class:`bool`: Checks if the invocation context is valid to be invoked with."""
         return self.prefix is not None and self.command is not None
 
-    async def _get_channel(self) -> discord.abc.Messageable:
+    async def _get_channel(self) -> ditcord.abc.Messageable:
         return self.channel
 
     @property
@@ -529,7 +529,7 @@ class Context(discord.abc.Messageable, Generic[BotT]):
         *,
         limit: Optional[int] = None,
         command_ids: Optional[Collection[int]] = None,
-        application: Optional[discord.abc.Snowflake] = None,
+        application: Optional[ditcord.abc.Snowflake] = None,
         with_applications: bool = True,
     ) -> AsyncIterator[MessageCommand]:
         return self.message.message_commands(

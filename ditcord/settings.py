@@ -1754,11 +1754,11 @@ class LegacyUserSettings:
 
         Parameters
         ----------
-        activity_restricted_guilds: List[:class:`~discord.abc.Snowflake`]
+        activity_restricted_guilds: List[:class:`~ditcord.abc.Snowflake`]
             A list of guilds that your current activity will not be shown in.
 
             .. versionadded:: 2.0
-        activity_joining_restricted_guilds: List[:class:`~discord.abc.Snowflake`]
+        activity_joining_restricted_guilds: List[:class:`~ditcord.abc.Snowflake`]
             A list of guilds that will not be able to join your current activity.
 
             .. versionadded:: 2.0
@@ -1813,7 +1813,7 @@ class LegacyUserSettings:
             Whether to render embeds that are sent in the chat.
         render_reactions: :class:`bool`
             Whether to render reactions that are added to messages.
-        restricted_guilds: List[:class:`~discord.abc.Snowflake`]
+        restricted_guilds: List[:class:`~ditcord.abc.Snowflake`]
             A list of guilds that you will not receive DMs from.
         show_current_game: :class:`bool`
             Whether to display the game that you are currently playing.

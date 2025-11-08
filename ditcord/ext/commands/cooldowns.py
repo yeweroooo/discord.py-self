@@ -27,7 +27,7 @@ from __future__ import annotations
 
 from typing import Any, Callable, Deque, Dict, Optional, Union, Generic, TypeVar, TYPE_CHECKING
 from discord.enums import Enum
-from discord.abc import PrivateChannel
+from ditcord.abc import PrivateChannel
 import time
 import asyncio
 from collections import deque

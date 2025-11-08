@@ -1890,7 +1890,7 @@ class Client:
 
         Parameters
         -----------
-        channel: Optional[:class:`~discord.abc.Snowflake`]
+        channel: Optional[:class:`~ditcord.abc.Snowflake`]
             Channel the client wants to join (must be a private channel). Use ``None`` to disconnect.
         self_mute: :class:`bool`
             Indicates if the client should be self-muted.
@@ -2129,7 +2129,7 @@ class Client:
 
         Parameters
         -----------
-        guild: :class:`~discord.abc.Snowflake`
+        guild: :class:`~ditcord.abc.Snowflake`
             The guild to leave.
         lurking: :class:`bool`
             Whether you are lurking the guild.
@@ -3162,7 +3162,7 @@ class Client:
 
         Parameters
         -----------
-        user: :class:`~discord.abc.Snowflake`
+        user: :class:`~ditcord.abc.Snowflake`
             The user to create a DM with.
 
         Returns
@@ -3189,7 +3189,7 @@ class Client:
 
         Parameters
         -----------
-        \*recipients: :class:`~discord.abc.Snowflake`
+        \*recipients: :class:`~ditcord.abc.Snowflake`
             An argument :class:`list` of :class:`discord.User` to have in
             your group.
 
@@ -3521,7 +3521,7 @@ class Client:
         ----------
         name: :class:`str`
             The name of the application.
-        team: :class:`~discord.abc.Snowflake`
+        team: :class:`~ditcord.abc.Snowflake`
             The team to create the application under.
 
         Raises
@@ -4075,11 +4075,11 @@ class Client:
             The number of payments to retrieve.
             If ``None``, retrieves every payment you have made. Note, however,
             that this would make it a slow operation.
-        before: Optional[Union[:class:`~discord.abc.Snowflake`, :class:`datetime.datetime`]]
+        before: Optional[Union[:class:`~ditcord.abc.Snowflake`, :class:`datetime.datetime`]]
             Retrieve payments before this date or payment.
             If a datetime is provided, it is recommended to use a UTC aware datetime.
             If the datetime is naive, it is assumed to be local time.
-        after: Optional[Union[:class:`~discord.abc.Snowflake`, :class:`datetime.datetime`]]
+        after: Optional[Union[:class:`~ditcord.abc.Snowflake`, :class:`datetime.datetime`]]
             Retrieve messages after this date or payment.
             If a datetime is provided, it is recommended to use a UTC aware datetime.
             If the datetime is naive, it is assumed to be local time.
@@ -5166,7 +5166,7 @@ class Client:
             The number of messages to retrieve.
             If ``None``, retrieves every recent mention received in the past week. Note, however,
             that this would make it a slow operation.
-        before: Optional[Union[:class:`~discord.abc.Snowflake`, :class:`datetime.datetime`]]
+        before: Optional[Union[:class:`~ditcord.abc.Snowflake`, :class:`datetime.datetime`]]
             Retrieve messages before this date or message.
             If a datetime is provided, it is recommended to use a UTC aware datetime.
             If the datetime is naive, it is assumed to be local time.

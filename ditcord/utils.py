@@ -408,7 +408,7 @@ def oauth_url(
     permissions: :class:`~discord.Permissions`
         The permissions you're requesting. If not given then you won't be requesting any
         permissions.
-    guild: :class:`~discord.abc.Snowflake`
+    guild: :class:`~ditcord.abc.Snowflake`
         The guild to pre-select in the authorization screen, if available.
     redirect_uri: :class:`str`
         An optional valid redirect URI.
@@ -1483,7 +1483,7 @@ def set_target(
         The channel to target.
     message: Optional[:class:`.Message`]
         The message to target.
-    user: Optional[:class:`~discord.abc.Snowflake`]
+    user: Optional[:class:`~ditcord.abc.Snowflake`]
         The user to target.
     """
     attrs = {}

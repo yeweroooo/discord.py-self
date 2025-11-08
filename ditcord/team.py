@@ -399,7 +399,7 @@ class Team(Hashable):
             The number of payouts to retrieve.
             If ``None``, retrieves every payout you have. Note, however,
             that this would make it a slow operation.
-        before: Optional[Union[:class:`~discord.abc.Snowflake`, :class:`datetime.datetime`]]
+        before: Optional[Union[:class:`~ditcord.abc.Snowflake`, :class:`datetime.datetime`]]
             Retrieve payments before this date or payout.
             If a datetime is provided, it is recommended to use a UTC aware datetime.
             If the datetime is naive, it is assumed to be local time.

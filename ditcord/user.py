@@ -26,7 +26,7 @@ from __future__ import annotations
 
 from typing import Any, Callable, Dict, List, Optional, Tuple, TYPE_CHECKING, Union
 
-import discord.abc
+import ditcord.abc
 from .asset import Asset, AssetMixin
 from .colour import Colour
 from .enums import (
@@ -987,7 +987,7 @@ class ClientUser(BaseUser):
         return self.__class__(state=self._state, data=data)  # type: ignore # ???
 
 
-class User(BaseUser, discord.abc.Connectable, discord.abc.Messageable):
+class User(BaseUser, ditcord.abc.Connectable, ditcord.abc.Messageable):
     """Represents a Discord user.
 
     .. container:: operations
@@ -1106,7 +1106,7 @@ class User(BaseUser, discord.abc.Connectable, discord.abc.Messageable):
         """Optional[:class:`PrivateCall`]: Returns the call associated with this user if it exists."""
         return getattr(self.dm_channel, 'call', None)
 
-    @copy_doc(discord.abc.Connectable.connect)
+    @copy_doc(ditcord.abc.Connectable.connect)
     async def connect(
         self,
         *,

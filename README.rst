@@ -52,7 +52,7 @@ Key Features
 Installing
 ----------
 
-**Python 3.12 or higher is required.**
+**Python 3.10 or higher is required** (recommended: Python 3.12+ for best performance).
 
 To install the library without full voice support, you can just run the following command:
 

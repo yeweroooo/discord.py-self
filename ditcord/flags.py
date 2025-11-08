@@ -1504,7 +1504,7 @@ class ApplicationFlags(BaseFlags):
 
 @fill_with_flags()
 class ChannelFlags(BaseFlags):
-    r"""Wraps up the Discord :class:`~discord.abc.GuildChannel` or :class:`Thread` flags.
+    r"""Wraps up the Discord :class:`~ditcord.abc.GuildChannel` or :class:`Thread` flags.
 
     .. container:: operations
 

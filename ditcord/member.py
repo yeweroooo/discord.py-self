@@ -30,7 +30,7 @@ import itertools
 from operator import attrgetter
 from typing import Any, Awaitable, Callable, Collection, Dict, List, Optional, TYPE_CHECKING, Tuple, TypeVar, Union
 
-import discord.abc
+import ditcord.abc
 
 from . import utils
 from .asset import Asset
@@ -217,7 +217,7 @@ def flatten_user(cls: T) -> T:
 
 
 @flatten_user
-class Member(discord.abc.Messageable, discord.abc.Connectable, _UserTag):
+class Member(ditcord.abc.Messageable, ditcord.abc.Connectable, _UserTag):
     """Represents a Discord member to a :class:`Guild`.
 
     This implements a lot of the functionality of :class:`User`.
@@ -445,15 +445,15 @@ class Member(discord.abc.Messageable, discord.abc.Connectable, _UserTag):
         ch = await self.create_dm()
         return ch
 
-    @utils.copy_doc(discord.abc.Connectable.connect)
+    @utils.copy_doc(ditcord.abc.Connectable.connect)
     async def connect(
         self,
         *,
         timeout: float = 60.0,
         reconnect: bool = True,
-        cls: Callable[[Client, discord.abc.VocalChannel], discord.abc.T] = VoiceClient,
+        cls: Callable[[Client, ditcord.abc.VocalChannel], ditcord.abc.T] = VoiceClient,
         ring: bool = True,
-    ) -> discord.abc.T:
+    ) -> ditcord.abc.T:
         channel = await self._get_channel()
         ret = await super().connect(timeout=timeout, reconnect=reconnect, cls=cls, _channel=channel)
 
@@ -834,7 +834,7 @@ class Member(discord.abc.Messageable, discord.abc.Connectable, _UserTag):
         mute: bool = MISSING,
         deafen: bool = MISSING,
         suppress: bool = MISSING,
-        roles: Collection[discord.abc.Snowflake] = MISSING,
+        roles: Collection[ditcord.abc.Snowflake] = MISSING,
         voice_channel: Optional[VocalGuildChannel] = MISSING,
         timed_out_until: Optional[datetime.datetime] = MISSING,
         avatar: Optional[bytes] = MISSING,

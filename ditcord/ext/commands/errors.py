@@ -31,7 +31,7 @@ from discord.errors import ClientException, DiscordException
 from ._types import BotT
 
 if TYPE_CHECKING:
-    from discord.abc import GuildChannel
+    from ditcord.abc import GuildChannel
     from discord.threads import Thread
     from discord.types.snowflake import Snowflake, SnowflakeList
 
