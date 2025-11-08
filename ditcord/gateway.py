@@ -85,9 +85,14 @@ class WebSocketClosure(Exception):
 
     __slots__ = ('code', 'reason')
 
-    def __init__(self, socket: AsyncWebSocket):
+    def __init__(self, socket: aiohttp.ClientWebSocketResponse):
         self.code: int = socket.close_code or -1
-        self.reason: str = socket.close_reason or ''
+        # aiohttp doesn't have close_reason attribute, get from exception if available
+        self.reason: str = getattr(socket, 'exception', lambda: None)() or ''
+        if self.reason and hasattr(self.reason, '__str__'):
+            self.reason = str(self.reason)
+        elif not isinstance(self.reason, str):
+            self.reason = ''
         super().__init__(f'Websocket closed with {self.code} (reason: {self.reason!r})')
 
 
