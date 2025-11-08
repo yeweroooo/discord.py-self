@@ -1737,7 +1737,7 @@ _BUILD_NUMBER_REGEX = re.compile(r'buildNumber\D+(\d+)"')
 class Headers:
     """A class to provide standard headers for HTTP requests.
 
-    For now, this is NOT user-customizable and always emulates Chrome on Windows.
+    For now, this is NOT user-customizable and always emulates Chrome on Android mobile.
     """
 
     FALLBACK_BUILD_NUMBER = 9999
@@ -1765,13 +1765,13 @@ class Headers:
         """Creates a new :class:`Headers` instance using the default fetching mechanisms."""
         try:
             properties, extra, encoded = await asyncio.wait_for(
-                cls.get_api_properties(session, 'web', proxy=proxy, proxy_auth=proxy_auth), timeout=3
+                cls.get_api_properties(session, 'android', proxy=proxy, proxy_auth=proxy_auth), timeout=3
             )
         except Exception:
             _log.info('Info API temporarily down. Falling back to manual retrieval...')
         else:
             return cls(
-                platform='Windows',
+                platform='Android',
                 major_version=int(properties['browser_version'].split('.')[0]),
                 super_properties=properties,
                 encoded_super_properties=encoded,
@@ -1791,28 +1791,28 @@ class Headers:
             bv = cls.FALLBACK_BROWSER_VERSION
 
         properties = {
-            'os': 'Windows',
-            'browser': 'Chrome',
+            'os': 'Android',
+            'browser': 'Discord Android',
             'device': '',
             'system_locale': 'en-US',
-            'browser_user_agent': cls._get_user_agent(bv),
+            'browser_user_agent': cls._get_user_agent(bv, android=True),
             'browser_version': f'{bv}.0.0.0',
-            'os_version': '10',
+            'os_version': '33',  # Android 13
             'referrer': '',
             'referring_domain': '',
             'referrer_current': '',
             'referring_domain_current': '',
-            'release_channel': 'stable',
+            'release_channel': 'googleRelease',
             'client_build_number': bn,
             'client_event_source': None,
             'has_client_mods': False,
             'client_launch_id': str(uuid.uuid4()),
-            'client_app_state': 'unfocused',
+            'client_app_state': 'active',
             'client_heartbeat_session_id': str(uuid.uuid4()),
         }
 
         return cls(
-            platform='Windows',
+            platform='Android',
             major_version=bv,
             super_properties=properties,
             encoded_super_properties=b64encode(_to_json(properties).encode()).decode('utf-8'),
@@ -1891,10 +1891,14 @@ class Headers:
             return int(data['versions'][0]['version'].split('.')[0])
 
     @staticmethod
-    def _get_user_agent(version: int, brand: Optional[str] = None) -> str:
-        """Fetches the latest Windows/Chrome user-agent."""
+    def _get_user_agent(version: int, brand: Optional[str] = None, android: bool = False) -> str:
+        """Fetches the latest Chrome user-agent for Windows or Android."""
         # Because of [user agent reduction](https://www.chromium.org/updates/ua-reduction/), we just need the major version now :)
-        ret = f'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{version}.0.0.0 Safari/537.36'
+        if android:
+            # Android mobile user agent - matches Discord Android app
+            ret = f'Mozilla/5.0 (Linux; Android 13; SM-G991B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{version}.0.0.0 Mobile Safari/537.36'
+        else:
+            ret = f'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{version}.0.0.0 Safari/537.36'
         if brand:
             # e.g. Edg/v.0.0.0 for Microsoft Edge
             ret += f' {brand}/{version}.0.0.0'

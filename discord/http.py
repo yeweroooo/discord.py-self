@@ -684,12 +684,17 @@ class HTTPClient:
         )
 
         try:
-            impersonate = requests.impersonate.DEFAULT_CHROME
+            # Use Chrome Android for mobile Discord app TLS fingerprinting (JA3/JA3S spoofing)
+            impersonate = requests.impersonate.chrome120_android
         except AttributeError:
-            # Breaking change
-            impersonate = 'chrome'
+            # Breaking change or fallback
+            try:
+                impersonate = 'chrome120_android'
+            except Exception:
+                # Final fallback for older curl-cffi versions
+                impersonate = 'chrome_android'
 
-        _log.info('Found TLS fingerprint target "%s".', impersonate)
+        _log.info('Found TLS fingerprint target "%s" (Android mobile).', impersonate)
         self.__session = requests.AsyncSession(impersonate=impersonate, default_headers=False)
         self._started = True
 
