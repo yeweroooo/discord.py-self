@@ -19,3 +19,8 @@ docs/crowdin.py
 backup/
 build/*
 YOUR_TOKEN.txt
+
+# Auto-reply bot files
+replied.txt
+error.txt
+config.py
