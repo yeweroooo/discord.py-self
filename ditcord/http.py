@@ -684,46 +684,72 @@ class HTTPClient:
             headers.super_properties.get('client_build_number'),
         )
 
+        # Try to use Chrome Android impersonate for TLS fingerprinting
+        # If it fails (SSL issues in some environments), fallback to no impersonate
+        # but still use Android mobile headers for stealth
+        impersonate = None
         try:
-            # Use Chrome Android for mobile Discord app TLS fingerprinting (JA3/JA3S spoofing)
-            impersonate = requests.impersonate.chrome120_android
-        except AttributeError:
-            # Breaking change or fallback
+            # Try DEFAULT_CHROME_ANDROID first
+            impersonate = requests.impersonate.DEFAULT_CHROME_ANDROID
+            # Test if impersonate works with a simple request
+            test_session = requests.AsyncSession(impersonate=impersonate, default_headers=False)
             try:
-                impersonate = 'chrome120_android'
-            except Exception:
-                # Final fallback for older curl-cffi versions
-                impersonate = 'chrome_android'
+                # Make a test request to verify SSL works
+                test_response = await test_session.get('https://discord.com/api/v9/gateway', timeout=5)
+                if test_response.status_code in (200, 401, 403):  # Any non-SSL error is ok
+                    _log.info('Found TLS fingerprint target "%s" (Android mobile).', impersonate)
+                else:
+                    raise Exception(f"Test request returned {test_response.status_code}")
+            finally:
+                await test_session.close()
+        except (AttributeError, Exception) as e:
+            _log.warning('Android TLS impersonate not available or has SSL issues (%s), using standard TLS with Android headers', str(e)[:100])
+            impersonate = None
 
-        _log.info('Found TLS fingerprint target "%s" (Android mobile).', impersonate)
-        self.__session = requests.AsyncSession(impersonate=impersonate, default_headers=False)
+        # Create session with Android mobile configuration
+        if impersonate:
+            self.__session = requests.AsyncSession(
+                impersonate=impersonate,
+                default_headers=False
+            )
+        else:
+            # Fallback: Use standard TLS but with full Android mobile headers/properties
+            # This still provides stealth through headers, user-agent, and super-properties
+            self.__session = requests.AsyncSession(default_headers=False)
+            _log.info('Using standard TLS with Android mobile headers for stealth')
+
         self._started = True
 
         # Clean up memory after initialization (memory optimization)
         gc.collect()
 
-    async def ws_connect(self, url: str, **kwargs) -> requests.AsyncWebSocket:
+    async def ws_connect(self, url: str, **kwargs) -> aiohttp.ClientWebSocketResponse:
         await self.startup()
 
-        headers: Dict[str, Any] = {
-            'Accept-Language': 'en-US,en;q=0.9',
-            'Accept-Encoding': 'gzip, deflate, br, zstd',
-            'Origin': 'https://discord.com',
-            'Sec-WebSocket-Extensions': 'permessage-deflate; client_max_window_bits',
+        # Use aiohttp for WebSocket (more stable than curl_cffi's experimental WebSocket)
+        headers: Dict[str, str] = {
             'User-Agent': self.user_agent,
         }
 
+        # Add extra headers if provided
+        extra_headers = kwargs.pop('headers', None)
+        if extra_headers:
+            headers.update(extra_headers)
+
         proxy = kwargs.pop('proxy', self.proxy if self.proxy_gateway else None)
         proxy_auth = kwargs.pop('proxy_auth', self.proxy_auth if self.proxy_gateway else None)
-        interface = kwargs.pop('interface', self.interface if self.proxy_gateway else None)
-        if proxy is not None:
-            kwargs['proxies'] = {'all': proxy}
-        if proxy_auth is not None:
-            if isinstance(proxy_auth, aiohttp.BasicAuth):
-                proxy_auth = (proxy_auth.login, proxy_auth.password)
-            kwargs['proxy_auth'] = proxy_auth
+        kwargs.pop('interface', None)  # aiohttp doesn't support interface parameter
 
-        return await self.__session.ws_connect(url, headers=headers, interface=interface, timeout=30.0, **kwargs)
+        # Use aiohttp session for WebSocket connection (more stable)
+        return await self.__asession.ws_connect(
+            url,
+            headers=headers,
+            proxy=proxy,
+            proxy_auth=proxy_auth,
+            timeout=aiohttp.ClientTimeout(total=30.0),
+            compress=0,  # Discord handles compression
+            **kwargs
+        )
 
     @property
     def browser_version(self) -> int:
